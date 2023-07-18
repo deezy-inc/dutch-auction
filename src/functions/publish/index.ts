@@ -1,7 +1,7 @@
 import { handlerPath } from "@libs/handler-resolver";
 
 export const publishEvent = {
-  timeout: 60,
+  timeout: 30,
   handler: `${handlerPath(__dirname)}/handler.publishEvent`,
   events: [
     {

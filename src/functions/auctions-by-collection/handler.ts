@@ -1,10 +1,11 @@
 import { internalServerError } from "@functions/errors";
 import { checkAuctionStatus } from "@functions/shared";
-import { createHttpResponse } from "@libs/api-gateway";
+import { createHttpResponse, validateWarm } from "@libs/api-gateway";
 import { listAuctions } from "@libs/db";
 import { APIGatewayEvent } from "aws-lambda";
 
 export const auctionsByCollection = async (event: APIGatewayEvent) => {
+  validateWarm(event);
   const collection = event.pathParameters?.collection;
   if (!collection) return internalServerError();
   try {

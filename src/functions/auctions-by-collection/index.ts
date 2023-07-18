@@ -1,7 +1,7 @@
 import { handlerPath } from "@libs/handler-resolver";
 
 export const auctionsByCollection = {
-  timeout: 60,
+  timeout: 30,
   handler: `${handlerPath(__dirname)}/handler.auctionsByCollection`,
   events: [
     {

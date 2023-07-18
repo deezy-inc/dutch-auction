@@ -1,3 +1,5 @@
+import { APIGatewayEvent } from "aws-lambda";
+
 const headers = {
   "Access-Control-Allow-Origin": "*", // Update with specific allowed origin(s)
   "Access-Control-Allow-Credentials": true,
@@ -10,6 +12,13 @@ export function createHttpResponse(statusCode: number, body: object) {
     body: JSON.stringify(body),
   };
 }
+
+export const validateWarm = (event: APIGatewayEvent) => {
+  if (event.headers && event.headers["deezy-ignore"]) {
+    console.log("Ignoring request...");
+    return { statusCode: 200 };
+  }
+};
 
 export function createErrorResponse({
   error = {},
