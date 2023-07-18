@@ -1,11 +1,16 @@
 import { errorInvalidInput } from "@functions/errors";
-import { createHttpResponse, parseEventInput } from "@libs/api-gateway";
+import {
+  createHttpResponse,
+  parseEventInput,
+  validateWarm,
+} from "@libs/api-gateway";
 
 import { signAndBroadcastEvent } from "@libs/nostr";
 import { APIGatewayEvent } from "aws-lambda";
 import { PublishEventSchema } from "./schema";
 
 export async function publishEvent(event: APIGatewayEvent) {
+  validateWarm(event);
   parseEventInput(event);
   const parsedEventBody = PublishEventSchema.safeParse(event.body);
   if (!parsedEventBody.success) {
