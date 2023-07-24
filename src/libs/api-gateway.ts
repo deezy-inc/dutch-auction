@@ -14,7 +14,7 @@ export function createHttpResponse(statusCode: number, body: object) {
 }
 
 /**
- * Returns a 200 response if the request is a warmup request, otherwise returns null.
+ * Returns true if the event is a warmup request, otherwise returns false.
  * @param event
  */
 export const isWarmupRequest = (event: APIGatewayEvent) => {
