@@ -280,8 +280,8 @@ const serverlessConfiguration: AWSConfig = {
   custom: {
     esbuild: {
       bundle: true,
-      minify: false,
-      sourcemap: true,
+      minify: true,
+      sourcemap: false,
       exclude: ["aws-sdk", "@aws-sdk"],
       target: "node18",
       define: { "require.resolve": undefined },
