@@ -10,7 +10,8 @@ import { APIGatewayEvent } from "aws-lambda";
 import { PublishEventSchema } from "./schema";
 
 export async function publishEvent(event: APIGatewayEvent) {
-  validateWarm(event);
+  const ignoreResponse = validateWarm(event);
+  if (ignoreResponse) return ignoreResponse;
   parseEventInput(event);
   const parsedEventBody = PublishEventSchema.safeParse(event.body);
   if (!parsedEventBody.success) {

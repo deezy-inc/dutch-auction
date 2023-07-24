@@ -31,7 +31,6 @@ function toMilliseconds(timestamp: number) {
 }
 
 export const createAuction = async (event: APIGatewayEvent) => {
-  validateWarm(event);
   parseEventInput(event);
   const parsedEventBody = CreateAuctionSchema.safeParse(event.body);
   if (!parsedEventBody.success) {

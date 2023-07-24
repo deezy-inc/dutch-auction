@@ -5,7 +5,8 @@ import { getAuctionsByInscriptionId } from "@libs/db";
 import { APIGatewayEvent } from "aws-lambda";
 
 export const auctionsByInscriptionId = async (event: APIGatewayEvent) => {
-  validateWarm(event);
+  const ignoreResponse = validateWarm(event);
+  if (ignoreResponse) return ignoreResponse;
   const inscriptionId = event.pathParameters?.inscriptionId;
   if (!inscriptionId) return internalServerError();
   try {

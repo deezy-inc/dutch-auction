@@ -5,7 +5,8 @@ import { getAuctionsByNostrAddress } from "@libs/db";
 import { APIGatewayEvent } from "aws-lambda";
 
 export const getAuctionsByAddress = async (event: APIGatewayEvent) => {
-  validateWarm(event);
+  const ignoreResponse = validateWarm(event);
+  if (ignoreResponse) return ignoreResponse;
   const address = event.pathParameters?.address;
   try {
     if (!address) throw new Error("No address provided");

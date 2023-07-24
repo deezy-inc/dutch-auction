@@ -5,7 +5,8 @@ import { listAuctions } from "@libs/db";
 import { APIGatewayEvent } from "aws-lambda";
 
 export const getAuctions = async (event: APIGatewayEvent) => {
-  validateWarm(event);
+  const ignoreResponse = validateWarm(event);
+  if (ignoreResponse) return ignoreResponse;
   try {
     const auctions = await listAuctions();
     await checkAuctionStatus(auctions);
