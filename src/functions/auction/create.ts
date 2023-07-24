@@ -5,7 +5,7 @@ import { getAuctionsByInscriptionId, saveAuction } from "@libs/db";
 import {
   createHttpResponse,
   parseEventInput,
-  validateWarm,
+  isWarmupRequest,
 } from "@libs/api-gateway";
 
 import {

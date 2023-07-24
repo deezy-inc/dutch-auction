@@ -2,7 +2,7 @@ import { errorInvalidInput } from "@functions/errors";
 import {
   createHttpResponse,
   parseEventInput,
-  validateWarm,
+  isWarmupRequest,
 } from "@libs/api-gateway";
 
 import { signAndBroadcastEvent } from "@libs/nostr";
@@ -10,8 +10,7 @@ import { APIGatewayEvent } from "aws-lambda";
 import { PublishEventSchema } from "./schema";
 
 export async function publishEvent(event: APIGatewayEvent) {
-  const ignoreResponse = validateWarm(event);
-  if (ignoreResponse) return ignoreResponse;
+  if (isWarmupRequest(event)) return createHttpResponse(200, {});
   parseEventInput(event);
   const parsedEventBody = PublishEventSchema.safeParse(event.body);
   if (!parsedEventBody.success) {

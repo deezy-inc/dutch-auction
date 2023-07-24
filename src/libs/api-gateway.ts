@@ -17,12 +17,12 @@ export function createHttpResponse(statusCode: number, body: object) {
  * Returns a 200 response if the request is a warmup request, otherwise returns null.
  * @param event
  */
-export const validateWarm = (event: APIGatewayEvent) => {
+export const isWarmupRequest = (event: APIGatewayEvent) => {
   if (event.headers && event.headers["deezy-ignore"]) {
-    console.log("Ignoring request...");
-    return { statusCode: 200 };
+    console.log("Detected warmup request...");
+    return true
   }
-  return null
+  return false
 };
 
 export function createErrorResponse({
