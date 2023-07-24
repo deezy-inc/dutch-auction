@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
   release:
     types: [created]
 
@@ -26,14 +26,14 @@ jobs:
         run: pnpm install
 
       - name: Deploy to Prod
-        if: github.event_name == 'release' && github.event.release.target_commitish == 'dev'
+        if: github.event_name == 'release' && github.event.release.target_commitish == 'main'
         run: npx sls deploy --verbose -s prod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Deploy to Staging
-        if: github.ref == 'refs/heads/dev'
+        if: github.ref == 'refs/heads/main'
         run: npx sls deploy --verbose -s stg
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
