@@ -29,6 +29,9 @@ const serverlessConfiguration: AWSConfig = {
     runtime: "nodejs18.x",
     stage: "${opt:stage, 'dev'}",
     region: "us-east-1",
+    apiGateway: {
+      minimumCompressionSize: 1024,
+    },
     environment: {
       STAGE: "${self:provider.stage}",
       AWS_ACCOUNT_ID: {
