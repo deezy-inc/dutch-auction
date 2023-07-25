@@ -59,7 +59,7 @@ export async function updateAuctionStatus(event: Auction) {
       priceInSats: currentPrice,
       signedPsbt: scheduledEvent.signedPsbt,
     };
-    const broadcastedEvents = await signAndBroadcastEvent(input);
+    const { broadcastedEvents, nostr } = await signAndBroadcastEvent(input);
     const broadcastedEvent = broadcastedEvents.find((event) => event.id !== "");
     if (!broadcastedEvent) {
       // skip current round
@@ -75,7 +75,7 @@ export async function updateAuctionStatus(event: Auction) {
     auctionMetadata[currentMetadataIndex] = {
       ...scheduledEvent,
       nostrEventId: broadcastedEvent.id,
-      nostr: broadcastedEvent,
+      nostr,
     };
     await updateAuctionMetadata(id, auctionMetadata);
   } catch (error) {

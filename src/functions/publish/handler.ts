@@ -38,7 +38,7 @@ export async function publishEvent(event: APIGatewayEvent) {
     signedPsbt: psbt,
   };
 
-  let broadcastedEvents = await signAndBroadcastEvent(input);
+  let { broadcastedEvents } = await signAndBroadcastEvent(input);
   broadcastedEvents = broadcastedEvents.filter((event) => event.id !== "");
 
   return createHttpResponse(200, {
