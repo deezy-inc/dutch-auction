@@ -12,7 +12,6 @@ export const auctionsByCollection = async (event: APIGatewayEvent) => {
     const auctions = (await listAuctions()).filter(
       (a) => a.collection === collection
     );
-    await checkAuctionStatus(auctions);
     return createHttpResponse(200, auctions);
   } catch (error) {
     console.error(error);
