@@ -29,6 +29,7 @@ export interface AuctionMetadata {
   endTime: number;
   id: string;
   nostrEventId?: string;
+  nostr?: any; // TODO: type
   price: number;
   signedPsbt: string;
   index: number;

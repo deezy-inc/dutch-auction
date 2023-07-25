@@ -75,6 +75,7 @@ export async function updateAuctionStatus(event: Auction) {
     auctionMetadata[currentMetadataIndex] = {
       ...scheduledEvent,
       nostrEventId: broadcastedEvent.id,
+      nostr: broadcastedEvent,
     };
     await updateAuctionMetadata(id, auctionMetadata);
   } catch (error) {

@@ -1,5 +1,4 @@
 import { internalServerError } from "@functions/errors";
-import { checkAuctionStatus } from "@functions/shared";
 import { createHttpResponse, isWarmupRequest } from "@libs/api-gateway";
 import { listAuctions } from "@libs/db";
 import { APIGatewayEvent } from "aws-lambda";

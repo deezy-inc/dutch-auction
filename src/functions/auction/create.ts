@@ -2,11 +2,7 @@ import { v4 } from "uuid";
 
 import { isSpent } from "@libs/inscriptions";
 import { getAuctionsByInscriptionId, saveAuction } from "@libs/db";
-import {
-  createHttpResponse,
-  parseEventInput,
-  isWarmupRequest,
-} from "@libs/api-gateway";
+import { createHttpResponse, parseEventInput } from "@libs/api-gateway";
 
 import {
   errorAuctionIsRunning,
