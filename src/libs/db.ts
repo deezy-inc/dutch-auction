@@ -40,6 +40,29 @@ const getAuctionsByNostrAddress = async (btcAddress: string) => {
   }
 };
 
+const getAuctionsByCollection = async (collection: string) => {
+  console.log(`collection: ${collection}, type: ${typeof collection}`);
+  const params = {
+    TableName: process.env.DYNAMODB_TABLE,
+    IndexName: "collection-index",
+    KeyConditionExpression: "#na = :na",
+    ExpressionAttributeNames: {
+      "#na": "collection",
+    },
+    ExpressionAttributeValues: {
+      ":na": collection,
+    },
+  };
+
+  try {
+    const { Items } = await client.query(params);
+    return Items as Auction[];
+  } catch (error) {
+    console.error(`Error getting auctions by Collection: ${error}`);
+    throw error;
+  }
+};
+
 const getAuctionsByInscriptionId = async (
   inscriptionId: string
 ): Promise<Auction[]> => {
@@ -259,6 +282,7 @@ export {
   updateAuctionMetadata,
   updateAuctionPrice,
   getAuctionsByNostrAddress,
+  getAuctionsByCollection,
   getAuctionsByInscriptionId,
   listAuctions,
   finishAuction,

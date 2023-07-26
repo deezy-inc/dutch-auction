@@ -231,6 +231,10 @@ const serverlessConfiguration: AWSConfig = {
               AttributeName: "inscriptionId",
               AttributeType: "S",
             },
+            {
+              AttributeName: "collection",
+              AttributeType: "S",
+            },
           ],
           KeySchema: [
             {
@@ -248,6 +252,22 @@ const serverlessConfiguration: AWSConfig = {
               KeySchema: [
                 {
                   AttributeName: "btcAddress",
+                  KeyType: "HASH",
+                },
+              ],
+              ProvisionedThroughput: {
+                ReadCapacityUnits: 1,
+                WriteCapacityUnits: 1,
+              },
+              Projection: {
+                ProjectionType: "ALL",
+              },
+            },
+            {
+              IndexName: "collection-index",
+              KeySchema: [
+                {
+                  AttributeName: "collection",
                   KeyType: "HASH",
                 },
               ],
