@@ -18,31 +18,21 @@ export async function publishEvent(event: APIGatewayEvent) {
     return errorInvalidInput(parsedEventBody.error);
   }
 
-  const { psbt, output, inscriptionId, currentPrice } = parsedEventBody.data;
+  const { psbt, output, inscriptionId, currentPrice, type } =
+    parsedEventBody.data;
 
-  const invalidResult = createHttpResponse(200, {
-    broadcastedEvents: [],
-    input: parsedEventBody.data,
-  });
-
-  if (!psbt) {
-    return invalidResult;
-  }
-
-  const input = {
+  const { broadcastedEvents } = await signAndBroadcastEvent({
     pubkey: process.env.NOSTR_PUBLIC_KEY || "",
     privkey: process.env.NOSTR_PRIVATE_KEY || "",
     output: output,
     inscriptionId: inscriptionId,
     priceInSats: currentPrice,
     signedPsbt: psbt,
-  };
-
-  let { broadcastedEvents } = await signAndBroadcastEvent(input);
-  broadcastedEvents = broadcastedEvents.filter((event) => event.id !== "");
+    type,
+  });
 
   return createHttpResponse(200, {
-    broadcastedEvents,
+    broadcastedEvents: broadcastedEvents.filter((event) => event.id !== ""),
     input: parsedEventBody.data,
   });
 }

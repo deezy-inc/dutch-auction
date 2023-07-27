@@ -27,14 +27,22 @@ jobs:
 
       - name: Deploy to Prod
         if: github.event_name == 'release' && github.event.release.target_commitish == 'main'
-        run: npx sls deploy --verbose -s prod
+        id: deploy_prod
+        run: |
+          DEPLOY_OUTPUT=$(npx sls deploy --verbose -s prod)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Deploy to Staging
         if: github.ref == 'refs/heads/main'
-        run: npx sls deploy --verbose -s stg
+        id: deploy_stg
+        run: |
+          DEPLOY_OUTPUT=$(npx sls deploy --verbose -s stg)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Run tests
+        if: steps.deploy_stg.conclusion == 'success'
+        run: pnpm test

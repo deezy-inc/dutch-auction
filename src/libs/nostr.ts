@@ -10,13 +10,15 @@ const RELAYS = [
   "wss://nostr.openordex.org",
 ];
 
+type NostrType = "sell" | "buy";
+
 interface SellEventParams {
   inscriptionId: string;
   output: string;
   networkName?: string;
   priceInSats: number;
   signedPsbt: string;
-  type?: string;
+  type?: NostrType;
   pubkey: string;
 }
 
@@ -38,7 +40,7 @@ async function sign(
 }
 
 // Function to construct the sell event
-function getSellEvent({
+function formatNostrEvent({
   inscriptionId,
   output,
   networkName = "mainnet",
@@ -69,19 +71,11 @@ function getSellEvent({
 
 // Function to sign Nostr event
 async function signNostrEvent({
-  inscriptionId,
-  output,
-  priceInSats,
-  signedPsbt,
-  pubkey,
   privkey,
+  ...nostrProps
 }: SellEventParams & { privkey: string }): Promise<SignedEvent> {
-  const event = getSellEvent({
-    inscriptionId,
-    output,
-    priceInSats,
-    signedPsbt,
-    pubkey,
+  const event = formatNostrEvent({
+    ...nostrProps,
   });
   const signedEvent = await sign(event, privkey);
 
@@ -95,20 +89,14 @@ type PublishedEvent = {
 // Function to sign and broadcast Nostr event
 async function signAndBroadcastEvent({
   inscriptionId,
-  output,
   priceInSats,
-  signedPsbt,
-  pubkey,
-  privkey,
+  ...nostrProps
 }: SellEventParams & { privkey: string }) {
   try {
     const signedEvent = await signNostrEvent({
       inscriptionId,
-      output,
       priceInSats,
-      signedPsbt,
-      pubkey,
-      privkey,
+      ...nostrProps,
     });
 
     console.log("signedEvent:", JSON.stringify(signedEvent, null, 2));
