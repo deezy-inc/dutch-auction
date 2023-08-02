@@ -21,7 +21,7 @@ export async function publishEvent(event: APIGatewayEvent) {
   const { psbt, output, inscriptionId, currentPrice, type } =
     parsedEventBody.data;
 
-  const { broadcastedEvents } = await signAndBroadcastEvent({
+  const { broadcastedEvents, nostr } = await signAndBroadcastEvent({
     pubkey: process.env.NOSTR_PUBLIC_KEY || "",
     privkey: process.env.NOSTR_PRIVATE_KEY || "",
     output: output,
@@ -34,5 +34,6 @@ export async function publishEvent(event: APIGatewayEvent) {
   return createHttpResponse(200, {
     broadcastedEvents: broadcastedEvents.filter((event) => event.id !== ""),
     input: parsedEventBody.data,
+	nostr
   });
 }
