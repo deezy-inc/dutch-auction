@@ -29,7 +29,7 @@ jobs:
         if: github.event_name == 'release' && github.event.release.target_commitish == 'main'
         id: deploy_prod
         run: |
-          DEPLOY_OUTPUT=$(npx sls deploy --verbose -s prod)
+          npx sls deploy --verbose -s prod
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -38,7 +38,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         id: deploy_stg
         run: |
-          DEPLOY_OUTPUT=$(npx sls deploy --verbose -s stg)
+          npx sls deploy --verbose -s stg
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
