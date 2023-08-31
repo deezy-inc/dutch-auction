@@ -37,7 +37,7 @@ export const createAuction = async (event: APIGatewayEvent) => {
   const {
     startTime: originalStartTime, // IMPORTANT: milliseconds or seconds
     decreaseAmount,
-    secondsBetweenEachDecrease, // IMPORTANT: seconds
+    secondsBetweenEachDecrease: _secondsBetweenEachDecrease, // IMPORTANT: seconds
     initialPrice,
     reservePrice,
     metadata,
@@ -46,6 +46,8 @@ export const createAuction = async (event: APIGatewayEvent) => {
     output,
     collection,
   } = parsedEventBody.data;
+
+  const secondsBetweenEachDecrease = Math.round(_secondsBetweenEachDecrease);
 
   const startTime = toMilliseconds(originalStartTime);
   const id = v4();
