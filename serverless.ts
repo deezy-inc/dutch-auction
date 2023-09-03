@@ -33,6 +33,9 @@ const serverlessConfiguration: AWSConfig = {
       minimumCompressionSize: 1024,
     },
     environment: {
+      REDIS_TYPE: "cloud",
+      REDIS_PORT: "19678",
+      REDIS_HOST: "redis-19678.c238.us-central1-2.gce.cloud.redislabs.com",
       STAGE: "${self:provider.stage}",
       AWS_ACCOUNT_ID: {
         Ref: "AWS::AccountId",
@@ -134,6 +137,10 @@ const serverlessConfiguration: AWSConfig = {
               {
                 "Fn::Sub":
                   "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/NOSTR_PRIVATE_KEY",
+              },
+              {
+                "Fn::Sub":
+                  "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/REDIS_PASSWORD",
               },
             ],
           },
@@ -313,6 +320,7 @@ const serverlessConfiguration: AWSConfig = {
     },
     serverlessSsmFetch: {
       NOSTR_PRIVATE_KEY: "NOSTR_PRIVATE_KEY~true",
+      REDIS_PASSWORD: "REDIS_PASSWORD~true",
     },
     customHeaders: [
       "Content-Type",
