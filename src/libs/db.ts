@@ -2,6 +2,7 @@ import { Auction, AuctionId, AuctionMetadata, AuctionStatus } from "@types";
 
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { DynamoDB, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
+import { broadcastChange } from "./queue";
 
 const client = DynamoDBDocument.from(new DynamoDB({}), {
   marshallOptions: { removeUndefinedValues: true, convertEmptyValues: true },
@@ -98,6 +99,7 @@ const saveAuction = async (auction: Auction) => {
 
   try {
     await client.put(params);
+    await broadcastChange();
   } catch (error) {
     console.error(`Error saving auction: ${error}`);
     throw error;
@@ -150,6 +152,7 @@ const finishAuction = async (auctionId: AuctionId, status?: string) => {
 
   try {
     await client.update(params);
+    await broadcastChange();
     return { status: "FINISHED" };
   } catch (error) {
     console.error(`Error finishing auction: ${error}`);
@@ -177,6 +180,7 @@ const updateAuctionStatus = async (
 
   try {
     await client.update(params);
+    await broadcastChange();
   } catch (error) {
     console.error(`Error updating auction status: ${error}`);
     throw error;
@@ -204,6 +208,7 @@ const updateAuctionMetadata = async (
 
   try {
     await client.update(params);
+    await broadcastChange();
   } catch (error) {
     console.error(`Error updating auction status: ${error}`);
     throw error;
@@ -224,6 +229,7 @@ const updateAuctionPrice = async (auctionId: AuctionId, price: number) => {
 
   try {
     await client.update(params);
+    await broadcastChange();
   } catch (error) {
     console.error(`Error updating auction price: ${error}`);
     throw error;
@@ -251,6 +257,7 @@ const deleteAuctionsByInscriptionId = async (inscriptionId: string) => {
     console.log(
       `Deleted ${auctions.length} records with inscriptionId: ${inscriptionId}`
     );
+    await broadcastChange();
     return ids;
   } catch (error) {
     console.error(`Error deleting auctions by inscriptionId: ${error}`);
@@ -269,6 +276,7 @@ const deleteAuctionById = async (auctionId: string) => {
   try {
     await client.send(command);
     console.log(`Deleted record with auctionId: ${auctionId}`);
+    await broadcastChange();
   } catch (error) {
     console.error(`Error deleting auction by auctionId: ${error}`);
     throw error;

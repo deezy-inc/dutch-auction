@@ -4,6 +4,7 @@ import { deleteAuctionById, getAuction } from "@libs/db";
 import { APIGatewayEvent } from "aws-lambda";
 import { createAuction } from "./create";
 import { checkAuctionStatus } from "@functions/shared";
+import { broadcastChange } from "@libs/queue";
 
 export const auction = async (event: APIGatewayEvent) => {
   const method = event.httpMethod;
@@ -22,6 +23,7 @@ export const auction = async (event: APIGatewayEvent) => {
       (auction.status === "PENDING" || auction.status === "RUNNING")
     ) {
       await deleteAuctionById(auctionId);
+      await broadcastChange();
       return createHttpResponse(200, { status: "DELETED", id: auctionId });
     }
     return createHttpResponse(200, auction);
