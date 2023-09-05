@@ -236,7 +236,6 @@ const serverlessConfiguration: AWSConfig = {
         Type: "AWS::DynamoDB::Table",
         Properties: {
           TableName: "${self:provider.environment.DYNAMODB_TABLE}",
-          BillingMode: "PAY_PER_REQUEST",
           AttributeDefinitions: [
             {
               AttributeName: "id",
@@ -261,6 +260,10 @@ const serverlessConfiguration: AWSConfig = {
               KeyType: "HASH",
             },
           ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1,
+          },
           GlobalSecondaryIndexes: [
             {
               IndexName: "btcAddress-index",
@@ -270,6 +273,10 @@ const serverlessConfiguration: AWSConfig = {
                   KeyType: "HASH",
                 },
               ],
+              ProvisionedThroughput: {
+                ReadCapacityUnits: 1,
+                WriteCapacityUnits: 1,
+              },
               Projection: {
                 ProjectionType: "ALL",
               },
@@ -282,6 +289,10 @@ const serverlessConfiguration: AWSConfig = {
                   KeyType: "HASH",
                 },
               ],
+              ProvisionedThroughput: {
+                ReadCapacityUnits: 1,
+                WriteCapacityUnits: 1,
+              },
               Projection: {
                 ProjectionType: "ALL",
               },
@@ -294,6 +305,10 @@ const serverlessConfiguration: AWSConfig = {
                   KeyType: "HASH",
                 },
               ],
+              ProvisionedThroughput: {
+                ReadCapacityUnits: 1,
+                WriteCapacityUnits: 1,
+              },
               Projection: {
                 ProjectionType: "ALL",
               },
