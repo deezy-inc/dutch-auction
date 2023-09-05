@@ -38,8 +38,6 @@ const serverlessConfiguration: AWSConfig = {
         Ref: "AWS::AccountId",
       },
       DYNAMODB_TABLE: "AuctionStates-${self:provider.stage}",
-      NOSTR_PUBLIC_KEY:
-        "be82246ca8d64881cc53407a773e33f9e220dc2153c52bb713a9ab1fe6a18d80",
     },
     iam: {
       role: {
@@ -134,6 +132,26 @@ const serverlessConfiguration: AWSConfig = {
               {
                 "Fn::Sub":
                   "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/NOSTR_PRIVATE_KEY",
+              },
+              {
+                "Fn::Sub":
+                  "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/NOSTR_PUBLIC_KEY",
+              },
+              {
+                "Fn::Sub":
+                  "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/REDIS_PASSWORD",
+              },
+              {
+                "Fn::Sub":
+                  "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/REDIS_TYPE",
+              },
+              {
+                "Fn::Sub":
+                  "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/REDIS_PORT",
+              },
+              {
+                "Fn::Sub":
+                  "arn:aws:ssm:${self:provider.region}:${AWS::AccountId}:parameter/REDIS_HOST",
               },
             ],
           },
@@ -243,8 +261,8 @@ const serverlessConfiguration: AWSConfig = {
             },
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1,
+            ReadCapacityUnits: 2,
+            WriteCapacityUnits: 2,
           },
           GlobalSecondaryIndexes: [
             {
@@ -256,8 +274,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
@@ -272,8 +290,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
@@ -288,8 +306,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
@@ -313,6 +331,11 @@ const serverlessConfiguration: AWSConfig = {
     },
     serverlessSsmFetch: {
       NOSTR_PRIVATE_KEY: "NOSTR_PRIVATE_KEY~true",
+      NOSTR_PUBLIC_KEY: "NOSTR_PUBLIC_KEY",
+      REDIS_PASSWORD: "REDIS_PASSWORD~true",
+      REDIS_TYPE: "REDIS_TYPE",
+      REDIS_PORT: "REDIS_PORT",
+      REDIS_HOST: "REDIS_HOST",
     },
     customHeaders: [
       "Content-Type",

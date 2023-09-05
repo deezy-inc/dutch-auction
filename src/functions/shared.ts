@@ -1,5 +1,6 @@
 import { updateAuctionStatus } from "@libs/db";
 import { isSpent } from "@libs/inscriptions";
+import { broadcastChange } from "@libs/queue";
 import { Auction } from "@types";
 
 export const checkAuctionStatus = async (auctions: Auction[]) => {
@@ -9,6 +10,7 @@ export const checkAuctionStatus = async (auctions: Auction[]) => {
     // always update the auction status if it is spent
     if (inscriptionStatus.spent && auction.status !== "SPENT") {
       await updateAuctionStatus(auction.id, "SPENT");
+      await broadcastChange();
       auctions[i] = { ...auction, status: "SPENT" };
     }
   }
