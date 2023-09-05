@@ -260,7 +260,10 @@ const serverlessConfiguration: AWSConfig = {
               KeyType: "HASH",
             },
           ],
-          BillingMode: "PAY_PER_REQUEST",
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 2,
+            WriteCapacityUnits: 2,
+          },
           GlobalSecondaryIndexes: [
             {
               IndexName: "btcAddress-index",
@@ -271,8 +274,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
@@ -287,8 +290,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
@@ -303,8 +306,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
