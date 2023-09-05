@@ -261,8 +261,8 @@ const serverlessConfiguration: AWSConfig = {
             },
           ],
           ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1,
+            ReadCapacityUnits: 2,
+            WriteCapacityUnits: 2,
           },
           GlobalSecondaryIndexes: [
             {
@@ -274,8 +274,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
@@ -290,8 +290,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
@@ -306,8 +306,8 @@ const serverlessConfiguration: AWSConfig = {
                 },
               ],
               ProvisionedThroughput: {
-                ReadCapacityUnits: 1,
-                WriteCapacityUnits: 1,
+                ReadCapacityUnits: 2,
+                WriteCapacityUnits: 2,
               },
               Projection: {
                 ProjectionType: "ALL",
