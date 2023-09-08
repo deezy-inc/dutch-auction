@@ -1,6 +1,6 @@
 {
   "name": "aws-serverless-typescript-api",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Serverless Auction",
   "main": "handle.js",
   "scripts": {
