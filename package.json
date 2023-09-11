@@ -44,7 +44,6 @@
     "@types/uuid": "^9.0.1",
     "http-errors": "^2.0.0",
     "node-fetch": "^2.6.11",
-    "nosft-core": "^2.4.3",
     "nostr-tools": "^1.11.1",
     "uuid": "^9.0.0",
     "websocket-polyfill": "^0.0.3",
