@@ -8,6 +8,7 @@ import { auctions } from "@functions/auctions";
 import { updateAuctionStatus } from "@functions/update-auction-status";
 import { publishEvent } from "@functions/publish";
 import { finishAuction } from "@functions/finish-auction";
+import { syncAuctions } from "@functions/sync-auctions";
 import { version } from "@functions/version";
 
 type AWSConfig = AWS & {
@@ -42,6 +43,16 @@ const serverlessConfiguration: AWSConfig = {
     iam: {
       role: {
         statements: [
+          {
+            Effect: "Allow",
+            Action: ["events:PutEvents"],
+            Resource: [
+              {
+                "Fn::Sub":
+                  "arn:aws:events:${self:provider.region}:${AWS::AccountId}:event-bus/notify-auction-changes",
+              },
+            ],
+          },
           {
             Effect: "Allow",
             Action: [
@@ -162,6 +173,7 @@ const serverlessConfiguration: AWSConfig = {
   functions: {
     version,
     auction,
+    syncAuctions,
     getAuctionsByAddress,
     auctions,
     updateAuctionStatus,
