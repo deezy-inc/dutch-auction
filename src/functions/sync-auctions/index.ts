@@ -5,7 +5,7 @@ export const syncAuctions = {
   events: [
     {
       eventBridge: {
-        eventBus: "notify-auction-changes",
+        eventBus: `${process.env.STAGE}-notify-auction-changes`,
         pattern: {
           source: ["deezy"],
           "detail-type": ["AuctionUpdate"],
