@@ -49,7 +49,7 @@ const serverlessConfiguration: AWSConfig = {
             Resource: [
               {
                 "Fn::Sub":
-                  "arn:aws:events:${self:provider.region}:${AWS::AccountId}:event-bus/notify-auction-changes",
+                  "arn:aws:events:${self:provider.region}:${AWS::AccountId}:event-bus/${self:provider.stage}-notify-auction-changes",
               },
             ],
           },
