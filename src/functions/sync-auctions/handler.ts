@@ -9,7 +9,7 @@ export async function notifyNostrService() {
   const params = {
     Entries: [
       {
-        EventBusName: "notify-auction-changes",
+        EventBusName: `${process.env.STAGE}-notify-auction-changes`,
         Source: "deezy",
         DetailType: "AuctionUpdate",
         Detail: JSON.stringify({}),
