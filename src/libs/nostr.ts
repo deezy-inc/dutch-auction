@@ -88,11 +88,13 @@ type PublishedEvent = {
 
 // Function to sign and broadcast Nostr event
 async function signAndBroadcastEvent({
-  inscriptionId,
+  inscriptionId: _inscriptionId,
   priceInSats,
   ...nostrProps
 }: SellEventParams & { privkey: string }) {
   try {
+    // We use the inscriptionId/output to index each aution
+    const inscriptionId = _inscriptionId?.includes(":") ? "" : _inscriptionId;
     const signedEvent = await signNostrEvent({
       inscriptionId,
       priceInSats,
