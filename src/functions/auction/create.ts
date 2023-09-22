@@ -42,10 +42,14 @@ export const createAuction = async (event: APIGatewayEvent) => {
     reservePrice,
     metadata,
     btcAddress,
-    inscriptionId,
+    inscriptionId: _inscriptionId,
     output,
     collection,
   } = parsedEventBody.data;
+
+  // We use the inscriptionId/output to index each aution (if the inscriptionId is not provided - uninscribed stats auction)
+
+  const inscriptionId = _inscriptionId === "" ? output : _inscriptionId;
 
   const secondsBetweenEachDecrease = Math.round(_secondsBetweenEachDecrease);
 

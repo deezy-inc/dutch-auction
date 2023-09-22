@@ -57,7 +57,13 @@ const getAuctionsByCollection = async (collection: string) => {
 
   try {
     const { Items } = await client.query(params);
-    return Items as Auction[];
+    const auctions = Items?.map((item) => ({
+      ...item,
+      inscriptionId: item?.inscriptionId?.includes(":")
+        ? ""
+        : item?.inscriptionId,
+    }));
+    return auctions as Auction[];
   } catch (error) {
     console.error(`Error getting auctions by Collection: ${error}`);
     throw error;
@@ -80,7 +86,13 @@ const getAuctionsByInscriptionId = async (
   };
   try {
     const { Items } = await client.query(params);
-    return Items as Auction[];
+    const auctions = Items?.map((item) => ({
+      ...item,
+      inscriptionId: item?.inscriptionId?.includes(":")
+        ? ""
+        : item?.inscriptionId,
+    }));
+    return auctions as Auction[];
   } catch (error) {
     console.error(`Error getting auctions by btcAddress: ${error}`);
     throw error;
@@ -113,7 +125,14 @@ const listAuctions = async () => {
 
   try {
     const { Items } = await client.scan(params);
-    return Items as Auction[];
+
+    const auctions = Items?.map((item) => ({
+      ...item,
+      inscriptionId: item?.inscriptionId?.includes(":")
+        ? ""
+        : item?.inscriptionId,
+    }));
+    return auctions as Auction[];
   } catch (error) {
     console.error(`Error listing auctions: ${error}`);
     throw error;
@@ -130,7 +149,13 @@ const getAuction = async (auctionId: string) => {
 
   try {
     const { Item } = await client.get(params);
-    return Item as Auction;
+    const auction = {
+      ...Item,
+      inscriptionId: Item?.inscriptionId?.includes(":")
+        ? ""
+        : Item?.inscriptionId,
+    };
+    return auction as Auction;
   } catch (error) {
     console.error(`Error getting auction: ${error}`);
     throw error;
